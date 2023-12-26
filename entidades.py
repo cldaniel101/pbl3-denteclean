@@ -1,6 +1,8 @@
 class Paciente:
-    def __init__(self, rg):
+    def __init__(self, rg, nome, outros_dados=""):
         self.rg = rg
+        self.nome = nome
+        self.outros_dados = outros_dados
 
 class Sessao:
     def __init__(self, id, data, horario, duracao, dados_opcionais):
