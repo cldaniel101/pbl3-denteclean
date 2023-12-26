@@ -14,3 +14,8 @@ class Sessao:
 
     def __str__(self) -> str:
         return self.data
+    
+class Consulta:
+    def __init__(self, paciente, sessao):
+        self.paciente = paciente
+        self.sessao = sessao
