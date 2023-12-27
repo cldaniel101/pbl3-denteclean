@@ -2,10 +2,11 @@ from entidades import *
 from datetime import datetime
 
 class Operacoes:
-    def __init__(self, lista_pacientes: list, lista_sessoes: list, lista_consultas: list):
+    def __init__(self, lista_pacientes: list, lista_sessoes: list, lista_consultas: list, fila_atendimento: list):
         self.pacientes = lista_pacientes
         self.sessoes = lista_sessoes
         self.consultas = lista_consultas
+        self.fila_atendimento = fila_atendimento
 
     def adicionar_sessao_clinica(self, id, data, horario, duracao, dados_opcionais=""):
         sessao = Sessao(id, data, horario, duracao, dados_opcionais)
@@ -134,8 +135,31 @@ class Operacoes:
         )
 
         if consulta:
-            print(f"O paciente {paciente.nome} está marcado para a sessão em {consulta.sessao.data} às {consulta.sessao.horario}.")
+            print(f"O paciente {paciente.nome} está marcado para a sessão de {consulta.sessao.data} às {consulta.sessao.horario}.")
         else:
-            print(f"O paciente {paciente.nome} não está marcado para a sessão em {consulta.sessao.data} às {consulta.sessao.horario}.")
+            print(f"O paciente {paciente.nome} não está marcado para a sessão de {consulta.sessao.data} às {consulta.sessao.horario}.")
+
+    def colocar_paciente_na_fila_atendimento(self, rg_paciente, id_sessao):
+        # Verifica se o paciente está cadastrado
+        paciente = next((p for p in self.pacientes if p.rg == rg_paciente), None)
+
+        if not paciente:
+            print("Paciente não encontrado. Cadastre o paciente antes de colocá-lo na fila de atendimento.")
+            return
+
+        # Verifica se o paciente está marcado para a sessão atual
+        consulta = next(
+            (consulta for consulta in self.consultas if consulta.sessao.id == id_sessao and consulta.paciente.rg == rg_paciente),
+            None
+        )
+
+        if not consulta:
+            print(f"O paciente {paciente.nome} não está marcado para a sessão com ID {id_sessao}.")
+            return
+
+        # Adiciona o paciente à fila de atendimento
+        self.fila_atendimento.append(consulta)
+
+        print(f"O paciente {paciente.nome} foi adicionado à fila de atendimento da sessão de {consulta.sessao.data} às {consulta.sessao.horario}.")
 
     
