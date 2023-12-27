@@ -162,4 +162,28 @@ class Operacoes:
 
         print(f"O paciente {paciente.nome} foi adicionado à fila de atendimento da sessão de {consulta.sessao.data} às {consulta.sessao.horario}.")
 
-    
+    def listar_proximo_paciente_fila_atendimento(self):
+        if not self.fila_atendimento:
+            print("A fila de atendimento está vazia.")
+            return
+
+        proxima_consulta = self.fila_atendimento[0]
+        paciente = proxima_consulta.paciente
+        sessao = proxima_consulta.sessao
+
+        print(f"Próximo paciente a ser atendido:")
+        print(f"Paciente: {paciente.nome}")
+        print(f"Sessão: {sessao.data} às {sessao.horario}")
+
+    def atender_proximo_paciente_fila_atendimento(self):
+        if not self.fila_atendimento:
+            print("A fila de atendimento está vazia.")
+            return
+
+        proxima_consulta = self.fila_atendimento.pop(0)
+        paciente = proxima_consulta.paciente
+        sessao = proxima_consulta.sessao
+
+        print(f"Atendendo próximo paciente da fila de atendimento:")
+        print(f"Paciente: {paciente.nome}")
+        print(f"Sessão: {sessao.data} às {sessao.horario}")
