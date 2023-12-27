@@ -119,4 +119,23 @@ class Operacoes:
         else:
             print(f"O paciente {paciente.nome} não possui horários marcados.")
 
+    def confirmar_paciente_marcado_sessao_atual(self, rg_paciente, id_sessao):
+        # Verifica se o paciente está cadastrado
+        paciente = next((p for p in self.pacientes if p.rg == rg_paciente), None)
 
+        if not paciente:
+            print("Paciente não encontrado. Cadastre o paciente antes de confirmar a presença na sessão.")
+            return
+
+        # Verifica se o paciente está marcado para a sessão atual
+        consulta = next(
+            (consulta for consulta in self.consultas if consulta.sessao.id == id_sessao and consulta.paciente.rg == rg_paciente),
+            None
+        )
+
+        if consulta:
+            print(f"O paciente {paciente.nome} está marcado para a sessão em {consulta.sessao.data} às {consulta.sessao.horario}.")
+        else:
+            print(f"O paciente {paciente.nome} não está marcado para a sessão em {consulta.sessao.data} às {consulta.sessao.horario}.")
+
+    
