@@ -7,6 +7,7 @@ class Operacoes:
         self.sessoes = lista_sessoes
         self.consultas = lista_consultas
         self.fila_atendimento = fila_atendimento
+        self.sessao_atual = None
         self.consulta_atual = None
 
         self.anotacoes_pacientes = {}
@@ -58,6 +59,7 @@ class Operacoes:
                 print("A data ou hora da sessão já passaram. Não é possível iniciar essa sessão.")
                 return
             else:
+                self.sessao_atual = sessao_existente
                 if iniciada_pelo_dentista:
                     print("Sessão clínica iniciada pelo dentista para atendimento.")
                 else:
@@ -206,7 +208,10 @@ class Operacoes:
 
         # Você pode adicionar mais detalhes ao prontuário, dependendo da sua implementação
         print(f"Número de Identidade (RG): {paciente.rg}")
-        print(f"Dados: {paciente.outros_dados}")
+        print(f"Outros dados: {paciente.outros_dados}")
+        print("Prontuários:")
+        for s, p in paciente.prontuario.items():
+            print(f"{s}: {p}")
 
     def registrar_anotacao_de_visita(self, rg_paciente, anotacao):
         # Registra uma anotação de visita do paciente
@@ -246,5 +251,23 @@ class Operacoes:
             ultima_anotacao = self.anotacoes_pacientes[rg_paciente][-1]
             print(f"Última anotação do paciente {paciente.nome} na última visita:")
             print(ultima_anotacao)
+
+    def anotar_prontuario_paciente_atual(self, prontuario):
+        if not self.consulta_atual:
+            print("Nenhum paciente está atualmente sendo atendido.")
+            return
+
+        paciente = self.consulta_atual.paciente
+
+        # Registra uma anotação no prontuário do paciente com a data e horário da sessão atual
+        data_hora_sessao = self.sessao_atual
+        print(self.sessao_atual)
+
+        if data_hora_sessao not in paciente.prontuario:
+            paciente.prontuario[data_hora_sessao] = [prontuario]
+        else:
+            paciente.prontuario[data_hora_sessao].append(prontuario)
+
+        print(f"Prontuário registrado para o paciente {paciente.nome}.")
 
     

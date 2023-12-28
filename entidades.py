@@ -3,6 +3,7 @@ class Paciente:
         self.rg = rg
         self.nome = nome
         self.outros_dados = outros_dados
+        self.prontuario = {}
 
 class Sessao:
     def __init__(self, id, data, horario, duracao, dados_opcionais):
@@ -13,7 +14,7 @@ class Sessao:
         self.dados_opcionais = dados_opcionais
 
     def __str__(self) -> str:
-        return self.data
+        return f"{self.data} às {self.horario}"
     
 class Consulta:
     def __init__(self, paciente, sessao):
