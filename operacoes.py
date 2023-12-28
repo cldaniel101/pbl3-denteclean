@@ -208,12 +208,14 @@ class Operacoes:
         print(f"Número de Identidade (RG): {paciente.rg}")
         print(f"Dados: {paciente.outros_dados}")
 
-    def registrar_anotacao_primeira_visita(self, rg_paciente, anotacao):
-        # Registra uma anotação da primeira visita do paciente
+    def registrar_anotacao_de_visita(self, rg_paciente, anotacao):
+        # Registra uma anotação de visita do paciente
         if rg_paciente not in self.anotacoes_pacientes:
             self.anotacoes_pacientes[rg_paciente] = [anotacao]
+            print("Primeira anotação de visita registrada.")
         else:
-            print("Anotação já registrada para a primeira visita deste paciente.")
+            self.anotacoes_pacientes[rg_paciente].append(anotacao)
+            print("Anotação de visita registrada.")
 
     def ler_primeira_anotacao_paciente_atual(self):
         if not self.consulta_atual:
@@ -229,3 +231,20 @@ class Operacoes:
             primeira_anotacao = self.anotacoes_pacientes[rg_paciente][0]
             print(f"Primeira anotação do paciente {paciente.nome} na primeira visita:")
             print(primeira_anotacao)
+
+    def ler_ultima_anotacao_paciente_atual(self):
+        if not self.consulta_atual:
+            print("Nenhum paciente está atualmente sendo atendido.")
+            return
+
+        paciente = self.consulta_atual.paciente
+        rg_paciente = paciente.rg
+
+        if rg_paciente not in self.anotacoes_pacientes or not self.anotacoes_pacientes[rg_paciente]:
+            print("Nenhuma anotação registrada para a última visita deste paciente.")
+        else:
+            ultima_anotacao = self.anotacoes_pacientes[rg_paciente][-1]
+            print(f"Última anotação do paciente {paciente.nome} na última visita:")
+            print(ultima_anotacao)
+
+    
