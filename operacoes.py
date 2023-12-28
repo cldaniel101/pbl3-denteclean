@@ -7,6 +7,7 @@ class Operacoes:
         self.sessoes = lista_sessoes
         self.consultas = lista_consultas
         self.fila_atendimento = fila_atendimento
+        self.consulta_atual = None
 
     def adicionar_sessao_clinica(self, id, data, horario, duracao, dados_opcionais=""):
         sessao = Sessao(id, data, horario, duracao, dados_opcionais)
@@ -40,7 +41,7 @@ class Operacoes:
         if not encontrada:
             print("Sessão não encontrada.")
 
-    def iniciar_sessao_clinica_recepcao(self, data, horario):
+    def iniciar_sessao_clinica_recepcao(self, data, horario, iniciada_pelo_dentista=False):
         # Encontrar uma sessão clínica existente para a data e horário fornecidos
         sessao_existente = next(
             (sessao for sessao in self.sessoes if sessao.data == data and sessao.horario == horario), None
@@ -55,7 +56,10 @@ class Operacoes:
                 print("A data ou hora da sessão já passaram. Não é possível iniciar essa sessão.")
                 return
             else:
-                print("Sessão clínica iniciada pela recepção para atendimento.")
+                if iniciada_pelo_dentista:
+                    print("Sessão clínica iniciada pelo dentista para atendimento.")
+                else:
+                    print("Sessão clínica iniciada pela recepção para atendimento.")
         else:
             print("Não há sessão clínica para a data e horário fornecidos.")
 
@@ -183,7 +187,22 @@ class Operacoes:
         proxima_consulta = self.fila_atendimento.pop(0)
         paciente = proxima_consulta.paciente
         sessao = proxima_consulta.sessao
+        self.consulta_atual = proxima_consulta
 
         print(f"Atendendo próximo paciente da fila de atendimento:")
         print(f"Paciente: {paciente.nome}")
         print(f"Sessão: {sessao.data} às {sessao.horario}")
+
+    def ler_prontuario_completo_paciente_atual(self):
+        if not self.consulta_atual:
+            print("Nenhum paciente está atualmente sendo atendido.")
+            return
+
+        # consulta_atual = self.fila_atendimento[0]
+        paciente = self.consulta_atual.paciente
+
+        print(f"Prontuário completo do paciente {paciente.nome}:")
+
+        # Você pode adicionar mais detalhes ao prontuário, dependendo da sua implementação
+        print(f"Número de Identidade (RG): {paciente.rg}")
+        print(f"Dados: {paciente.outros_dados}")
