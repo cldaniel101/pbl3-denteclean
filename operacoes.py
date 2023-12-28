@@ -9,6 +9,8 @@ class Operacoes:
         self.fila_atendimento = fila_atendimento
         self.consulta_atual = None
 
+        self.anotacoes_pacientes = {}
+
     def adicionar_sessao_clinica(self, id, data, horario, duracao, dados_opcionais=""):
         sessao = Sessao(id, data, horario, duracao, dados_opcionais)
         self.sessoes.append(sessao)
@@ -198,7 +200,6 @@ class Operacoes:
             print("Nenhum paciente está atualmente sendo atendido.")
             return
 
-        # consulta_atual = self.fila_atendimento[0]
         paciente = self.consulta_atual.paciente
 
         print(f"Prontuário completo do paciente {paciente.nome}:")
@@ -206,3 +207,25 @@ class Operacoes:
         # Você pode adicionar mais detalhes ao prontuário, dependendo da sua implementação
         print(f"Número de Identidade (RG): {paciente.rg}")
         print(f"Dados: {paciente.outros_dados}")
+
+    def registrar_anotacao_primeira_visita(self, rg_paciente, anotacao):
+        # Registra uma anotação da primeira visita do paciente
+        if rg_paciente not in self.anotacoes_pacientes:
+            self.anotacoes_pacientes[rg_paciente] = [anotacao]
+        else:
+            print("Anotação já registrada para a primeira visita deste paciente.")
+
+    def ler_primeira_anotacao_paciente_atual(self):
+        if not self.consulta_atual:
+            print("Nenhum paciente está atualmente sendo atendido.")
+            return
+
+        paciente = self.consulta_atual.paciente
+        rg_paciente = paciente.rg
+
+        if rg_paciente not in self.anotacoes_pacientes or not self.anotacoes_pacientes[rg_paciente]:
+            print("Nenhuma anotação registrada para a primeira visita deste paciente.")
+        else:
+            primeira_anotacao = self.anotacoes_pacientes[rg_paciente][0]
+            print(f"Primeira anotação do paciente {paciente.nome} na primeira visita:")
+            print(primeira_anotacao)
