@@ -270,4 +270,17 @@ class Operacoes:
 
         print(f"Prontuário registrado para o paciente {paciente.nome}.")
 
+    def listar_consultas_sessao_clinica(self, id_sessao):
+        consultas_sessao = [consulta for consulta in self.consultas if consulta.sessao.id == id_sessao]
+
+        if not consultas_sessao:
+            print(f"Nenhuma consulta realizada na sessão clínica com ID {id_sessao}.")
+        else:
+            print(f"Consultas realizadas na sessão clínica com ID {id_sessao}:")
+            for consulta in consultas_sessao:
+                print(f"Paciente: {consulta.paciente.nome}")
+                print(f"Data: {consulta.sessao.data}")
+                print(f"Horário: {consulta.sessao.horario}")
+                print("--------------------------")
+    
     
