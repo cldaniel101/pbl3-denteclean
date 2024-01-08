@@ -68,6 +68,9 @@ class Operacoes:
         else:
             print("Não há sessão clínica para a data e horário fornecidos.")
 
+    def id_da_sessao_atual(self):
+        return self.sessao_atual.id
+
     def adicionar_novo_paciente(self, rg, nome, outros_dados=""):
         # Verifica se o paciente já está cadastrado
         paciente_existente = next((paciente for paciente in self.pacientes if paciente.rg == rg), None)

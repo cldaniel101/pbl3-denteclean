@@ -28,7 +28,7 @@ op.adicionar_sessao_clinica("1", "2024-01-28", "14:00", 4, "")
 op.adicionar_sessao_clinica("2", "2024-01-28", "18:00", 3, "")
 op.marcar_horario_para_paciente("123456789", "1")
 op.colocar_paciente_na_fila_atendimento("123456789", "1")
-op.iniciar_sessao_clinica_recepcao("2023-12-28", "14:00")
+# op.iniciar_sessao_clinica_recepcao("2024-01-28", "14:00")
 
 continuar = True
 
@@ -44,6 +44,7 @@ while continuar:
 [6] Marcar horário para paciente
 [7] Listar horários marcados do paciente
 [8] Confirmar se paciente está marcado para sessão atual
+[9] Colocar paciente na fila de atendimento
 [0] Sair
 """)
         action = input(">>> ")
@@ -103,12 +104,24 @@ while continuar:
             op.listar_horarios_marcados_paciente(rg_paciente)
 
         elif action == "8":
-            print("\nConfirmar se paciente está marcado para sessão atual:")
-            rg_paciente = input("Número de Identidade (RG) do paciente: ")
-            id_sessao = input("ID da sessão atual: ")
-            op.confirmar_paciente_marcado_sessao_atual(rg_paciente, id_sessao)
+            try:
+                print("\nConfirmar se paciente está marcado para sessão atual:")
+                print("DICA: Lembre-se de iniciar a sessão antes!")
+                rg_paciente = input("Número de Identidade (RG) do paciente: ")
+                op.confirmar_paciente_marcado_sessao_atual(rg_paciente, op.id_da_sessao_atual())
+            except:
+                print("\nERRO! TENTE NOVAMENTE. \nPossíveis soluções: Verifique se o RG do paciente está correto; Inicie uma sessão antes de colocar pacientes na fila de atendimento. ")
 
+        elif action == "9":
+            try:
+                print("\nColocar paciente na fila de atendimento:")
+                print("DICA: Lembre-se de iniciar a sessão antes de colocar pacientes na fila de atendimento.")
+                rg_paciente = input("Número de Identidade (RG) do paciente: ")
+                op.colocar_paciente_na_fila_atendimento(rg_paciente, op.id_da_sessao_atual())
+            except:
+                print("\nERRO! TENTE NOVAMENTE. \nPossíveis soluções: Verifique se o RG do paciente está correto; Inicie uma sessão antes de colocar pacientes na fila de atendimento. ")
 
+        
                 
         elif action == "0":
             continuar = False
