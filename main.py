@@ -26,8 +26,8 @@ contador_sessoes = 3
 # Cenário exemplo:
 op.adicionar_sessao_clinica("1", "2024-01-28", "14:00", 4, "")
 op.adicionar_sessao_clinica("2", "2024-01-28", "18:00", 3, "")
-op.marcar_horario_para_paciente("123456789", 1)
-op.colocar_paciente_na_fila_atendimento("123456789", 1)  # Exemplo: João Silva na fila de atendimento
+op.marcar_horario_para_paciente("123456789", "1")
+op.colocar_paciente_na_fila_atendimento("123456789", "1")  # Exemplo: João Silva na fila de atendimento
 op.iniciar_sessao_clinica_recepcao("2023-12-28", "14:00")
 
 continuar = True
@@ -42,6 +42,7 @@ while continuar:
 [4] Iniciar sessão clínica
 [5] Adicionar novo paciente
 [6] Marcar horário para paciente
+[7] Listar horários marcados do paciente
 [0] Sair
 """)
         action = input(">>> ")
@@ -95,7 +96,12 @@ while continuar:
             id_sessao = input("ID da sessão: ")
             op.marcar_horario_para_paciente(rg_paciente, id_sessao)
 
-        
+        elif action == "7":
+            print("\nListar horários marcados do paciente:")
+            rg_paciente = input("Número de Identidade (RG) do paciente: ")
+            op.listar_horarios_marcados_paciente(rg_paciente)
+
+
                 
         elif action == "0":
             continuar = False
