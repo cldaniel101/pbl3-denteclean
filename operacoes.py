@@ -32,6 +32,7 @@ class Operacoes:
         for s in self.sessoes:
             if s.data == data and s.horario == horario:
                 encontrada = True
+                print("\nSESSÃO LOCALIZADA: ")
                 print("--------------------------")
                 print(f"Id: {s.id}")
                 print(f"Data: {s.data}")
