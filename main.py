@@ -46,6 +46,7 @@ while continuar:
 [8]  Confirmar se paciente está marcado para sessão atual
 [9]  Colocar paciente na fila de atendimento
 [10] Listar próximo paciente da fila de atendimento
+[11] Atender próximo paciente
 [0]  Sair
 """)
         action = input(">>> ")
@@ -79,12 +80,8 @@ while continuar:
             print("\nIniciar sessão clínica:")
             data = input("Data da sessão: ")
             horario = input("Horário da sessão: ")
-            iniciada_pelo_dentista = input("A sessão está sendo iniciada pelo dentista? [S/N]").lower()
             
-            if iniciada_pelo_dentista == "s":
-                op.iniciar_sessao_clinica_recepcao(data, horario, iniciada_pelo_dentista=True)
-            else:
-                op.iniciar_sessao_clinica_recepcao(data, horario)
+            op.iniciar_sessao_clinica_recepcao(data, horario)
 
         elif action == "5":
             print("\nAdicionar novo paciente:")
@@ -125,6 +122,9 @@ while continuar:
         elif action == "10":
             print("\nListar próximo paciente da fila de atendimento:")
             op.listar_proximo_paciente_fila_atendimento()
+
+        elif action == "11":
+            op.atender_proximo_paciente_fila_atendimento()
                 
         elif action == "0":
             continuar = False
@@ -136,4 +136,34 @@ while continuar:
         sleep(2)
         
     elif user == "2":
-        pass
+        print("\nO que deseja fazer?")
+        print("""
+[1] Buscar sessão clínica
+[2] Iniciar sessão clínica
+[3] Atender próximo paciente
+[0] Sair
+""")
+        action = input(">>> ")
+
+        if action == "1":
+            print("\nBuscar sessão clínica:")
+            data = input("Data da sessão: ")
+            horario = input("Horário da sessão: ")
+            op.buscar_sessao_clinica(data, horario)
+
+        elif action == "2":
+            print("\nIniciar sessão clínica:")
+            data = input("Data da sessão: ")
+            horario = input("Horário da sessão: ")
+            
+            op.iniciar_sessao_clinica_recepcao(data, horario, True)
+
+        elif action == "3":
+            op.atender_proximo_paciente_fila_atendimento()
+
+        elif action == "0":
+            continuar = False
+            print("Saindo do programa.")
+
+        else:
+            print("Opção inválida. Tente novamente.")
