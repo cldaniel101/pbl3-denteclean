@@ -1,3 +1,6 @@
+from datetime import datetime
+from time import sleep
+
 from entidades import *
 from operacoes import Operacoes
 
@@ -37,6 +40,7 @@ while continuar:
 [2] Listar sessões clínicas
 [3] Buscar sessão clínica
 [4] Iniciar sessão clínica
+[5] Adicionar novo paciente
 [0] Sair
 """)
         action = input(">>> ")
@@ -76,6 +80,13 @@ while continuar:
                 op.iniciar_sessao_clinica_recepcao(data, horario, iniciada_pelo_dentista=True)
             else:
                 op.iniciar_sessao_clinica_recepcao(data, horario)
+
+        elif action == "5":
+            print("\nAdicionar novo paciente:")
+            rg = input("Número de Identidade (RG): ")
+            nome = input("Nome do paciente: ")
+            outros_dados = input("Outros dados pessoais (opcional): ")
+            op.adicionar_novo_paciente(rg, nome, outros_dados)
                 
         elif action == "0":
             continuar = False
@@ -83,3 +94,8 @@ while continuar:
 
         else:
             print("Opção inválida. Tente novamente.")
+
+        sleep(2)
+        
+    elif user == "2":
+        pass
