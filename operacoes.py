@@ -146,7 +146,7 @@ class Operacoes:
         if consulta:
             print(f"O paciente {paciente.nome} está marcado para a sessão de {consulta.sessao.data} às {consulta.sessao.horario}.")
         else:
-            print(f"O paciente {paciente.nome} não está marcado para a sessão de {consulta.sessao.data} às {consulta.sessao.horario}.")
+            print(f"O paciente {paciente.nome} não está marcado para esta sessão.")
 
     def colocar_paciente_na_fila_atendimento(self, rg_paciente, id_sessao):
         # Verifica se o paciente está cadastrado
