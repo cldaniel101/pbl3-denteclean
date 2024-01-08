@@ -27,8 +27,8 @@ contador_sessoes = 3
 op.adicionar_sessao_clinica("1", "2024-01-28", "14:00", 4, "")
 op.adicionar_sessao_clinica("2", "2024-01-28", "18:00", 3, "")
 op.marcar_horario_para_paciente("123456789", "1")
+op.iniciar_sessao_clinica_recepcao("2024-01-28", "14:00")
 op.colocar_paciente_na_fila_atendimento("123456789", "1")
-# op.iniciar_sessao_clinica_recepcao("2024-01-28", "14:00")
 
 continuar = True
 
@@ -36,16 +36,17 @@ while continuar:
     if user == "1":
         print("\nO que deseja fazer?")
         print("""
-[1] Adicionar nova sessão clínica
-[2] Listar sessões clínicas
-[3] Buscar sessão clínica
-[4] Iniciar sessão clínica
-[5] Adicionar novo paciente
-[6] Marcar horário para paciente
-[7] Listar horários marcados do paciente
-[8] Confirmar se paciente está marcado para sessão atual
-[9] Colocar paciente na fila de atendimento
-[0] Sair
+[1]  Adicionar nova sessão clínica
+[2]  Listar sessões clínicas
+[3]  Buscar sessão clínica
+[4]  Iniciar sessão clínica
+[5]  Adicionar novo paciente
+[6]  Marcar horário para paciente
+[7]  Listar horários marcados do paciente
+[8]  Confirmar se paciente está marcado para sessão atual
+[9]  Colocar paciente na fila de atendimento
+[10] Listar próximo paciente da fila de atendimento
+[0]  Sair
 """)
         action = input(">>> ")
 
@@ -121,7 +122,9 @@ while continuar:
             except:
                 print("\nERRO! TENTE NOVAMENTE. \nPossíveis soluções: Verifique se o RG do paciente está correto; Inicie uma sessão antes de colocar pacientes na fila de atendimento. ")
 
-        
+        elif action == "10":
+            print("\nListar próximo paciente da fila de atendimento:")
+            op.listar_proximo_paciente_fila_atendimento()
                 
         elif action == "0":
             continuar = False
