@@ -1,4 +1,3 @@
-from datetime import datetime
 from time import sleep
 
 from entidades import *
@@ -6,15 +5,15 @@ from operacoes import Operacoes
 
 print("Seja bem-vindo(a) à Clínica DenteClean\n")
 
-# print("""Quem está acessando? 
-# Recepção [1]
-# Dentista [2]      
-# """)
-# user = input(">>> ")
-# while user != "1" and user != "2":
-#     print("Digite uma opção válida.")
-#     user = input(">>> ")
-user = "2"
+print("""Quem está acessando? 
+Recepção [1]
+Dentista [2]      
+""")
+user = input(">>> ")
+while user != "1" and user != "2":
+    print("Digite uma opção válida.")
+    user = input(">>> ")
+# user = "2"
 
 pacientes = [Paciente("123456789", "João Silva", "Dor nos dentes."), Paciente("987654321", "Maria Oliveira")]
 sessoes = []
@@ -47,7 +46,7 @@ while continuar:
 [9]  Colocar paciente na fila de atendimento
 [10] Listar próximo paciente da fila de atendimento
 [11] Atender próximo paciente
-
+[12] Listar consultas realizadas numa sessão clínica
 [0]  Sair
 """)
         action = input(">>> ")
@@ -131,7 +130,10 @@ while continuar:
                 rg = paciente.rg   
             op.atender_proximo_paciente_fila_atendimento()                
 
-
+        elif action == "12":
+            print("\nDICA: Se preciso, liste as sessões clínicas [2] para verificar seu Id.\n")
+            id_sessao = input("Digite o ID da sessão clínica: ")
+            op.listar_consultas_sessao_clinica(id_sessao)
                 
         elif action == "0":
             continuar = False
