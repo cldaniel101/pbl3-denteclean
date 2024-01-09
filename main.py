@@ -47,6 +47,7 @@ while continuar:
 [9]  Colocar paciente na fila de atendimento
 [10] Listar próximo paciente da fila de atendimento
 [11] Atender próximo paciente
+
 [0]  Sair
 """)
         action = input(">>> ")
@@ -124,7 +125,17 @@ while continuar:
             op.listar_proximo_paciente_fila_atendimento()
 
         elif action == "11":
+            if op.fila_atendimento:
+                consulta = op.fila_atendimento[0]
+                paciente = consulta.paciente
+                rg = paciente.rg   
             op.atender_proximo_paciente_fila_atendimento()
+            if op.fila_atendimento:
+                print("Antes de finalizar o atendimento, registre uma anotação sobre a visita: ")
+                anotacao = input("> ")
+                op.registrar_anotacao_de_visita(rg, anotacao)
+
+
                 
         elif action == "0":
             continuar = False
@@ -141,6 +152,7 @@ while continuar:
 [1] Buscar sessão clínica
 [2] Iniciar sessão clínica
 [3] Atender próximo paciente
+[4] Ler prontuário completo do paciente atual
 [0] Sair
 """)
         action = input(">>> ")
@@ -161,9 +173,16 @@ while continuar:
         elif action == "3":
             op.atender_proximo_paciente_fila_atendimento()
 
+        elif action == "4":
+            print("\nDICA 1: Atenda um paciente da fila de atendimento antes.")
+            print("\nDICA 2: Anote o prontuário do paciente [15]. \n")
+            op.ler_prontuario_completo_paciente_atual()
+
         elif action == "0":
             continuar = False
             print("Saindo do programa.")
 
         else:
             print("Opção inválida. Tente novamente.")
+
+        sleep(2)

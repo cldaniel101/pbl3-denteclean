@@ -197,7 +197,7 @@ class Operacoes:
         sessao = proxima_consulta.sessao
         self.consulta_atual = proxima_consulta
 
-        print(f"Atendendo próximo paciente da fila de atendimento:")
+        print(f"Atendendo próximo paciente da fila de atendimento.")
         print(f"Paciente: {paciente.nome}")
         print(f"Sessão: {sessao.data} às {sessao.horario}")
 
