@@ -201,6 +201,10 @@ class Operacoes:
         print(f"Paciente: {paciente.nome}")
         print(f"Sessão: {sessao.data} às {sessao.horario}")
 
+        print("Antes de finalizar o atendimento, registre uma anotação sobre a visita: ")
+        anotacao = input("> ")
+        self.registrar_anotacao_de_visita(paciente.rg, anotacao)
+
     def ler_prontuario_completo_paciente_atual(self):
         if not self.consulta_atual:
             print("Nenhum paciente está atualmente sendo atendido.")

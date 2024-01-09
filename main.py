@@ -14,7 +14,7 @@ print("Seja bem-vindo(a) à Clínica DenteClean\n")
 # while user != "1" and user != "2":
 #     print("Digite uma opção válida.")
 #     user = input(">>> ")
-user = "1"
+user = "2"
 
 pacientes = [Paciente("123456789", "João Silva", "Dor nos dentes."), Paciente("987654321", "Maria Oliveira")]
 sessoes = []
@@ -129,11 +129,7 @@ while continuar:
                 consulta = op.fila_atendimento[0]
                 paciente = consulta.paciente
                 rg = paciente.rg   
-            op.atender_proximo_paciente_fila_atendimento()
-            if op.fila_atendimento:
-                print("Antes de finalizar o atendimento, registre uma anotação sobre a visita: ")
-                anotacao = input("> ")
-                op.registrar_anotacao_de_visita(rg, anotacao)
+            op.atender_proximo_paciente_fila_atendimento()                
 
 
                 
@@ -153,6 +149,7 @@ while continuar:
 [2] Iniciar sessão clínica
 [3] Atender próximo paciente
 [4] Ler prontuário completo do paciente atual
+[5] Ler primeira anotação do paciente atual
 [0] Sair
 """)
         action = input(">>> ")
@@ -171,12 +168,19 @@ while continuar:
             op.iniciar_sessao_clinica_recepcao(data, horario, True)
 
         elif action == "3":
+            if op.fila_atendimento:
+                consulta = op.fila_atendimento[0]
+                paciente = consulta.paciente
+                rg = paciente.rg   
             op.atender_proximo_paciente_fila_atendimento()
 
         elif action == "4":
             print("\nDICA 1: Atenda um paciente da fila de atendimento antes.")
             print("\nDICA 2: Anote o prontuário do paciente [15]. \n")
             op.ler_prontuario_completo_paciente_atual()
+
+        elif action == "5":
+            op.ler_primeira_anotacao_paciente_atual()
 
         elif action == "0":
             continuar = False
