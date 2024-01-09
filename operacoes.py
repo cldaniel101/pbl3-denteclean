@@ -291,4 +291,3 @@ class Operacoes:
                 print(f"Horário: {consulta.sessao.horario}")
                 print("--------------------------")
     
-    

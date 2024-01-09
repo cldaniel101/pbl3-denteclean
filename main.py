@@ -151,6 +151,7 @@ while continuar:
 [4] Ler prontuário completo do paciente atual
 [5] Ler primeira anotação do paciente atual
 [6] Ler última anotação do paciente atual
+[7] Anotar prontuário do paciente atual
 [0] Sair
 """)
         action = input(">>> ")
@@ -177,7 +178,7 @@ while continuar:
 
         elif action == "4":
             print("\nDICA 1: Atenda um paciente da fila de atendimento antes.")
-            print("\nDICA 2: Anote o prontuário do paciente [15]. \n")
+            print("\nDICA 2: Anote o prontuário do paciente [7]. \n")
             op.ler_prontuario_completo_paciente_atual()
 
         elif action == "5":
@@ -185,6 +186,10 @@ while continuar:
 
         elif action == "6":
             op.ler_ultima_anotacao_paciente_atual()
+
+        elif action == "7":
+            prontuario = input("Digite a anotação do prontuário: ")
+            op.anotar_prontuario_paciente_atual(prontuario)
 
         elif action == "0":
             continuar = False
