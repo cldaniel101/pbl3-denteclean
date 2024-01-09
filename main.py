@@ -150,6 +150,7 @@ while continuar:
 [3] Atender próximo paciente
 [4] Ler prontuário completo do paciente atual
 [5] Ler primeira anotação do paciente atual
+[6] Ler última anotação do paciente atual
 [0] Sair
 """)
         action = input(">>> ")
@@ -181,6 +182,9 @@ while continuar:
 
         elif action == "5":
             op.ler_primeira_anotacao_paciente_atual()
+
+        elif action == "6":
+            op.ler_ultima_anotacao_paciente_atual()
 
         elif action == "0":
             continuar = False
