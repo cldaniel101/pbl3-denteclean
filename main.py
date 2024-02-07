@@ -1,4 +1,5 @@
 from time import sleep
+import re
 
 from entidades import *
 from operacoes import Operacoes
@@ -7,7 +8,7 @@ print("Seja bem-vindo(a) à Clínica DenteClean\n")
 
 print("""Quem está acessando? 
 Recepção [1]
-Dentista [2]      
+Dentista [2]
 """)
 user = input(">>> ")
 while user != "1" and user != "2":
@@ -22,19 +23,22 @@ fila_atendimento = []
 op = Operacoes(pacientes, sessoes, consultas, fila_atendimento)
 contador_sessoes = 3
 
+padrao_data = re.compile(r'^\d{2}-\d{2}-\d{4}$')
+padrao_horario = re.compile(r'^([01]\d|2[0-3]):[0-5]\d$')
+
 # Cenário exemplo:
-op.adicionar_sessao_clinica("1", "2024-01-28", "14:00", 4, "")
-op.adicionar_sessao_clinica("2", "2024-01-28", "18:00", 3, "")
+op.adicionar_sessao_clinica("1", "28-09-2024", "14:00", 4, "")
+op.adicionar_sessao_clinica("2", "28-09-2024", "18:00", 3, "")
 op.marcar_horario_para_paciente("123456789", "1")
-op.iniciar_sessao_clinica_recepcao("2024-01-28", "14:00")
+op.iniciar_sessao_clinica_recepcao("28-09-2024", "14:00")
 op.colocar_paciente_na_fila_atendimento("123456789", "1")
 
 continuar = True
 
 while continuar:
     if user == "1":
-        print("\nO que deseja fazer?")
-        print("""
+        print("\n\033[1;36;107mO que deseja fazer?\033[0m")
+        print("""\033[36m
 [1]  Adicionar nova sessão clínica
 [2]  Listar sessões clínicas
 [3]  Buscar sessão clínica
@@ -48,79 +52,89 @@ while continuar:
 [11] Atender próximo paciente
 [12] Listar consultas realizadas numa sessão clínica
 [0]  Sair
-""")
+\033[0m""")
         action = input(">>> ")
+        print()
 
         if action == "1":
             print("Adicionando Sessão Clínica:")
             id = str(contador_sessoes)
-            data = input("Data ('dd/mm/aaaa') - ")
-            horario = input("Horário ('hh:mm') - ")
-            duracao = input("Duração (horas) - ")
-            conf_dados_opcionais = input("Deseja acrescentar dados adicionais? [S/N]").lower()
-            if conf_dados_opcionais == "s":
-                dados_opcionais = input("Informações Adicionais - ")
+            data = input("Data ('dd-mm-aaaa') - ")
+            if not padrao_data.match(data):
+                print(f'{data} não é uma data válida.')
             else:
-                dados_opcionais = ""  
-            op.adicionar_sessao_clinica(id, data, horario, duracao, dados_opcionais)
-            contador_sessoes += 1
-            print("Sessão adicionada com sucesso!")
+                horario = input("Horário ('hh:mm') - ")
+                if not padrao_horario.match(horario):
+                    print(f'{horario} não é um horário válido.')
+                else:
+                    duracao = input("Duração (horas) - ")
+                    if int(duracao) <= 0 or int(duracao) > 6:
+                        print("A duração precisa ser maior do que 0 e menor 6 horas.")
+                    else:
+                        conf_dados_opcionais = input("Deseja acrescentar dados adicionais? [S/N]").lower()
+                        if conf_dados_opcionais == "s":
+                            dados_opcionais = input("Informações Adicionais - ")
+                        else:
+                            dados_opcionais = ""  
+                        op.adicionar_sessao_clinica(id, data, horario, duracao, dados_opcionais)
+                        contador_sessoes += 1
+                        print("\033[30;42mSessão adicionada com sucesso!\033[0m")
 
         elif action == "2":
-            print("\nSessões Clínicas:")
+            print("\033[1;37;43mSessões Clínicas:\033[0m")
             op.exibir_sessoes()
                 
         elif action == "3":
-            print("\nBuscar sessão clínica:")
+            print("\033[1;37;43mBuscar sessão clínica:\033[0m")
             data = input("Data da sessão: ")
             horario = input("Horário da sessão: ")
             op.buscar_sessao_clinica(data, horario)
 
         elif action == "4":
-            print("\nIniciar sessão clínica:")
+            print("\033[1;37;43mIniciar sessão clínica:\033[0m")
             data = input("Data da sessão: ")
             horario = input("Horário da sessão: ")
             
             op.iniciar_sessao_clinica_recepcao(data, horario)
 
         elif action == "5":
-            print("\nAdicionar novo paciente:")
+            print("\033[1;37;43mAdicionar novo paciente:\033[0m")
             rg = input("Número de Identidade (RG): ")
             nome = input("Nome do paciente: ")
             outros_dados = input("Outros dados pessoais (opcional): ")
             op.adicionar_novo_paciente(rg, nome, outros_dados)
 
         elif action == "6":
-            print("\nMarcar horário para paciente:")
+            print("\033[1;37;43mMarcar horário para paciente:\033[0m")
             rg_paciente = input("Número de Identidade (RG) do paciente: ")
             id_sessao = input("ID da sessão: ")
             op.marcar_horario_para_paciente(rg_paciente, id_sessao)
 
         elif action == "7":
-            print("\nListar horários marcados do paciente:")
+            print("\033[1;37;43mListar horários marcados do paciente:\033[0m")
             rg_paciente = input("Número de Identidade (RG) do paciente: ")
             op.listar_horarios_marcados_paciente(rg_paciente)
 
         elif action == "8":
             try:
-                print("\nConfirmar se paciente está marcado para sessão atual:")
+                print("\033[1;37;43mConfirmar se paciente está marcado para sessão atual:\033[0m")
                 print("DICA: Lembre-se de iniciar a sessão antes!")
                 rg_paciente = input("Número de Identidade (RG) do paciente: ")
                 op.confirmar_paciente_marcado_sessao_atual(rg_paciente, op.id_da_sessao_atual())
             except:
-                print("\nERRO! TENTE NOVAMENTE. \nPossíveis soluções: Verifique se o RG do paciente está correto; Inicie uma sessão antes de colocar pacientes na fila de atendimento. ")
+                print("\n\033[1;30;41mERRO! TENTE NOVAMENTE.\033[0m \nPossíveis soluções:\n1. Verifique se o RG do paciente está correto\n2. Inicie uma sessão antes de colocar pacientes na fila de atendimento.")
 
         elif action == "9":
             try:
-                print("\nColocar paciente na fila de atendimento:")
+                print("\033[1;37;43mColocar paciente na fila de atendimento:\033[0m")
                 print("DICA: Lembre-se de iniciar a sessão antes de colocar pacientes na fila de atendimento.")
                 rg_paciente = input("Número de Identidade (RG) do paciente: ")
                 op.colocar_paciente_na_fila_atendimento(rg_paciente, op.id_da_sessao_atual())
             except:
-                print("\nERRO! TENTE NOVAMENTE. \nPossíveis soluções: Verifique se o RG do paciente está correto; Inicie uma sessão antes de colocar pacientes na fila de atendimento. ")
+                print("\n\033[1;30;41mERRO! TENTE NOVAMENTE.\033[0m \nPossíveis soluções:\n1. Verifique se o RG do paciente está correto\n2. Inicie uma sessão antes de colocar pacientes na fila de atendimento.")
 
         elif action == "10":
-            print("\nListar próximo paciente da fila de atendimento:")
+            print("\033[1;37;43mListar próximo paciente da fila de atendimento:\033[0m")
             op.listar_proximo_paciente_fila_atendimento()
 
         elif action == "11":
@@ -131,7 +145,7 @@ while continuar:
             op.atender_proximo_paciente_fila_atendimento()                
 
         elif action == "12":
-            print("\nDICA: Se preciso, liste as sessões clínicas [2] para verificar seu Id.\n")
+            print("DICA: Se preciso, liste as sessões clínicas [2] para verificar seu Id.\n")
             id_sessao = input("Digite o ID da sessão clínica: ")
             op.listar_consultas_sessao_clinica(id_sessao)
                 
@@ -140,13 +154,13 @@ while continuar:
             print("Saindo do programa.")
 
         else:
-            print("Opção inválida. Tente novamente.")
+            print("\033[1;30;41mOpção inválida. Tente novamente.\033[0m")
 
         sleep(2)
         
     elif user == "2":
-        print("\nO que deseja fazer?")
-        print("""
+        print("\n\033[1;36;107mO que deseja fazer?\033[0m")
+        print("""\033[36m
 [1] Buscar sessão clínica
 [2] Iniciar sessão clínica
 [3] Atender próximo paciente
@@ -155,17 +169,17 @@ while continuar:
 [6] Ler última anotação do paciente atual
 [7] Anotar prontuário do paciente atual
 [0] Sair
-""")
+\033[0m""")
         action = input(">>> ")
 
         if action == "1":
-            print("\nBuscar sessão clínica:")
+            print("\n\033[1;37;43mBuscar sessão clínica:\033[0m")
             data = input("Data da sessão: ")
             horario = input("Horário da sessão: ")
             op.buscar_sessao_clinica(data, horario)
 
         elif action == "2":
-            print("\nIniciar sessão clínica:")
+            print("\n\033[1;37;43mIniciar sessão clínica:\033[0m")
             data = input("Data da sessão: ")
             horario = input("Horário da sessão: ")
             
@@ -198,6 +212,6 @@ while continuar:
             print("Saindo do programa.")
 
         else:
-            print("Opção inválida. Tente novamente.")
+            print("\033[1;30;41mOpção inválida. Tente novamente.\033[0m")
 
         sleep(2)

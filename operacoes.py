@@ -53,7 +53,7 @@ class Operacoes:
 
         if sessao_existente:
             # Verifica se a sessão já está em andamento
-            data_hora_atual = datetime.now().strftime("%Y-%m-%d %H:%M")
+            data_hora_atual = datetime.now().strftime("%d-%m-%Y %H:%M")
             data_hora_sessao = f"{sessao_existente.data} {sessao_existente.horario}"
 
             if data_hora_sessao < data_hora_atual:
@@ -99,7 +99,7 @@ class Operacoes:
             return
 
         # Verifica se a sessão já foi encerrada
-        data_hora_atual = datetime.now().strftime("%Y-%m-%d %H:%M")
+        data_hora_atual = datetime.now().strftime("%d-%m-%Y %H:%M")
         data_hora_sessao = f"{sessao.data} {sessao.horario}"
 
         if data_hora_sessao < data_hora_atual:
