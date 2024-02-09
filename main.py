@@ -14,7 +14,6 @@ user = input(">>> ")
 while user != "1" and user != "2":
     print("Digite uma opção válida.")
     user = input(">>> ")
-# user = "2"
 
 pacientes = [Paciente("123456789", "João Silva", "Dor nos dentes."), Paciente("987654321", "Maria Oliveira")]
 sessoes = []
@@ -52,6 +51,7 @@ while continuar:
 [11] Atender próximo paciente
 [12] Listar consultas realizadas numa sessão clínica
 [0]  Sair
+[T]  Trocar para Dentista
 \033[0m""")
         action = input(">>> ")
         print()
@@ -152,6 +152,10 @@ while continuar:
         elif action == "0":
             continuar = False
             print("Saindo do programa.")
+        
+        elif action.upper() == "T":
+            print("Trocando para DENTISTA.")
+            user = "2"
 
         else:
             print("\033[1;30;41mOpção inválida. Tente novamente.\033[0m")
@@ -169,6 +173,7 @@ while continuar:
 [6] Ler última anotação do paciente atual
 [7] Anotar prontuário do paciente atual
 [0] Sair
+[T] Trocar para Recepção
 \033[0m""")
         action = input(">>> ")
 
@@ -210,6 +215,10 @@ while continuar:
         elif action == "0":
             continuar = False
             print("Saindo do programa.")
+
+        elif action.upper() == "T":
+            print("Trocando para RECEPÇÃO.")
+            user = "1"
 
         else:
             print("\033[1;30;41mOpção inválida. Tente novamente.\033[0m")
