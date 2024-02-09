@@ -16,6 +16,16 @@ class Operacoes:
         sessao = Sessao(id, data, horario, duracao, dados_opcionais)
         self.sessoes.append(sessao)
 
+    def salvar_sessoes_json(self, filename):
+        with open(filename, 'w') as f:
+            sessoes_dict = [sessao.to_dict() for sessao in self.sessoes]
+            json.dump(sessoes_dict, f)
+
+    def carregar_sessoes_json(self, filename):
+        with open(filename, 'r') as f:
+            sessoes_dict = json.load(f)
+            self.sessoes = [Sessao.from_dict(data) for data in sessoes_dict]
+
     def exibir_sessoes(self):
         for s in self.sessoes:
             print("--------------------------")

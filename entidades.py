@@ -1,3 +1,5 @@
+import json
+
 class Paciente:
     def __init__(self, rg, nome, outros_dados=""):
         self.rg = rg
@@ -12,6 +14,19 @@ class Sessao:
         self.horario = horario
         self.duracao = duracao
         self.dados_opcionais = dados_opcionais
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'data': self.data,
+            'horario': self.horario,
+            'duracao': self.duracao,
+            'dados_opcionais': self.dados_opcionais
+        }
+
+    @classmethod
+    def from_dict(cls, data):
+        return cls(data['id'], data['data'], data['horario'], data['duracao'], data['dados_opcionais'])
 
     def __str__(self) -> str:
         return f"{self.data} às {self.horario}"

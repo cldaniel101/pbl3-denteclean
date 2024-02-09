@@ -26,8 +26,7 @@ padrao_data = re.compile(r'^\d{2}-\d{2}-\d{4}$')
 padrao_horario = re.compile(r'^([01]\d|2[0-3]):[0-5]\d$')
 
 # Cenário exemplo:
-op.adicionar_sessao_clinica("1", "28-09-2024", "14:00", 4, "")
-op.adicionar_sessao_clinica("2", "28-09-2024", "18:00", 3, "")
+op.carregar_sessoes_json('sessoes.json')
 op.marcar_horario_para_paciente("123456789", "1")
 op.iniciar_sessao_clinica_recepcao("28-09-2024", "14:00")
 op.colocar_paciente_na_fila_atendimento("123456789", "1")
@@ -77,11 +76,13 @@ while continuar:
                         else:
                             dados_opcionais = ""  
                         op.adicionar_sessao_clinica(id, data, horario, duracao, dados_opcionais)
+                        op.salvar_sessoes_json('sessoes.json')
                         contador_sessoes += 1
                         print("\033[30;42mSessão adicionada com sucesso!\033[0m")
 
         elif action == "2":
             print("\033[1;37;43mSessões Clínicas:\033[0m")
+            op.carregar_sessoes_json('sessoes.json')
             op.exibir_sessoes()
                 
         elif action == "3":
