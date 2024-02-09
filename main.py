@@ -15,25 +15,28 @@ while user != "1" and user != "2":
     print("Digite uma opção válida.")
     user = input(">>> ")
 
-pacientes = [Paciente("123456789", "João Silva", "Dor nos dentes."), Paciente("987654321", "Maria Oliveira")]
-sessoes = []
-consultas = []
-fila_atendimento = []
+pacientes, sessoes, consultas, fila_atendimento = [], [], [], []
 op = Operacoes(pacientes, sessoes, consultas, fila_atendimento)
-contador_sessoes = 3
 
 padrao_data = re.compile(r'^\d{2}-\d{2}-\d{4}$')
 padrao_horario = re.compile(r'^([01]\d|2[0-3]):[0-5]\d$')
 
 # Cenário exemplo:
-op.carregar_sessoes_json('sessoes.json')
+# op.salvar_pacientes_json('pacientes.json')
+# op.salvar_sessoes_json('sessoes.json')
 op.marcar_horario_para_paciente("123456789", "1")
+op.salvar_consultas_json('consultas.json')
 op.iniciar_sessao_clinica_recepcao("28-09-2024", "14:00")
 op.colocar_paciente_na_fila_atendimento("123456789", "1")
 
 continuar = True
 
 while continuar:
+    op.carregar_sessoes_json('sessoes.json')
+    op.carregar_pacientes_json('pacientes.json')
+    op.carregar_consultas_json('consultas.json')
+    contador_sessoes = int(op.obter_maior_id_sessao()) + 1
+
     if user == "1":
         print("\n\033[1;36;107mO que deseja fazer?\033[0m")
         print("""\033[36m
@@ -82,7 +85,6 @@ while continuar:
 
         elif action == "2":
             print("\033[1;37;43mSessões Clínicas:\033[0m")
-            op.carregar_sessoes_json('sessoes.json')
             op.exibir_sessoes()
                 
         elif action == "3":
@@ -95,7 +97,6 @@ while continuar:
             print("\033[1;37;43mIniciar sessão clínica:\033[0m")
             data = input("Data da sessão: ")
             horario = input("Horário da sessão: ")
-            
             op.iniciar_sessao_clinica_recepcao(data, horario)
 
         elif action == "5":
@@ -104,12 +105,14 @@ while continuar:
             nome = input("Nome do paciente: ")
             outros_dados = input("Outros dados pessoais (opcional): ")
             op.adicionar_novo_paciente(rg, nome, outros_dados)
+            op.salvar_pacientes_json('pacientes.json')
 
         elif action == "6":
             print("\033[1;37;43mMarcar horário para paciente:\033[0m")
             rg_paciente = input("Número de Identidade (RG) do paciente: ")
             id_sessao = input("ID da sessão: ")
             op.marcar_horario_para_paciente(rg_paciente, id_sessao)
+            op.salvar_consultas_json('consultas.json')
 
         elif action == "7":
             print("\033[1;37;43mListar horários marcados do paciente:\033[0m")
@@ -212,6 +215,7 @@ while continuar:
         elif action == "7":
             prontuario = input("Digite a anotação do prontuário: ")
             op.anotar_prontuario_paciente_atual(prontuario)
+            op.salvar_pacientes_json('pacientes.json')
 
         elif action == "0":
             continuar = False

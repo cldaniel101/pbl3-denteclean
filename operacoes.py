@@ -16,6 +16,12 @@ class Operacoes:
         sessao = Sessao(id, data, horario, duracao, dados_opcionais)
         self.sessoes.append(sessao)
 
+    def obter_maior_id_sessao(self):
+        if not self.sessoes:
+            return 0
+        else:
+            return max(sessao.id for sessao in self.sessoes)
+
     def salvar_sessoes_json(self, filename):
         with open(filename, 'w') as f:
             sessoes_dict = [sessao.to_dict() for sessao in self.sessoes]
@@ -32,7 +38,7 @@ class Operacoes:
             print(f"Id: {s.id}")
             print(f"Data: {s.data}")
             print(f"Horário: {s.horario}")
-            print(f"Duração: {s.duracao}")
+            print(f"Duração (h): {s.duracao}")
             if s.dados_opcionais != "":
                 print(f"Dados Adicionais: {s.dados_opcionais}")
             print("--------------------------")
@@ -47,7 +53,7 @@ class Operacoes:
                 print(f"Id: {s.id}")
                 print(f"Data: {s.data}")
                 print(f"Horário: {s.horario}")
-                print(f"Duração: {s.duracao}")
+                print(f"Duração (h): {s.duracao}")
                 if s.dados_opcionais != "":
                     print(f"Dados Adicionais: {s.dados_opcionais}")
                 print("--------------------------")
@@ -80,6 +86,26 @@ class Operacoes:
 
     def id_da_sessao_atual(self):
         return self.sessao_atual.id
+    
+    def salvar_pacientes_json(self, filename):
+        with open(filename, 'w') as f:
+            pacientes_dict = [paciente.to_dict() for paciente in self.pacientes]
+            json.dump(pacientes_dict, f)
+
+    def salvar_consultas_json(self, filename):
+        with open(filename, 'w') as f:
+            consultas_dict = [consulta.to_dict() for consulta in self.consultas]
+            json.dump(consultas_dict, f)
+
+    def carregar_pacientes_json(self, filename):
+        with open(filename, 'r') as f:
+            pacientes_dict = json.load(f)
+            self.pacientes = [Paciente.from_dict(data) for data in pacientes_dict]
+
+    def carregar_consultas_json(self, filename):
+        with open(filename, 'r') as f:
+            consultas_dict = json.load(f)
+            self.consultas = [Consulta.from_dict(data) for data in consultas_dict]
 
     def adicionar_novo_paciente(self, rg, nome, outros_dados=""):
         # Verifica se o paciente já está cadastrado
