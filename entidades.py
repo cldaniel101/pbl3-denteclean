@@ -1,6 +1,11 @@
 import json
 
 class Paciente:
+    """
+    Classe para representar um paciente.
+
+    Contém informações básicas sobre o paciente e seu prontuário.
+    """
     def __init__(self, rg, nome, outros_dados=""):
         self.rg = rg
         self.nome = nome
@@ -22,6 +27,11 @@ class Paciente:
         return paciente
 
 class Sessao:
+    """
+    Classe para representar uma sessão clínica.
+
+    Contém informações sobre a data, horário, duração e dados opcionais da sessão.
+    """
     def __init__(self, id, data, horario, duracao, dados_opcionais):
         self.id = id
         self.data = data
@@ -46,6 +56,11 @@ class Sessao:
         return f"{self.data} às {self.horario}"
     
 class Consulta:
+    """
+    Classe para representar uma consulta.
+
+    Contém informações sobre o paciente associado e a sessão em que a consulta ocorreu.
+    """
     def __init__(self, paciente, sessao):
         self.paciente = paciente
         self.sessao = sessao
@@ -61,4 +76,3 @@ class Consulta:
         paciente = Paciente.from_dict(data['paciente'])
         sessao = Sessao.from_dict(data['sessao'])
         return cls(paciente, sessao)
-    

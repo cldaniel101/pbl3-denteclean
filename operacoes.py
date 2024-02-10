@@ -3,6 +3,15 @@ from datetime import datetime
 
 class Operacoes:
     def __init__(self, lista_pacientes: list, lista_sessoes: list, lista_consultas: list, fila_atendimento: list):
+        """
+        Inicializa a classe Operacoes com listas de pacientes, sessões, consultas e fila de atendimento.
+
+        Args:
+        lista_pacientes (list): Lista de pacientes
+        lista_sessoes (list): Lista de sessões clínicas
+        lista_consultas (list): Lista de consultas
+        fila_atendimento (list): Fila de atendimento
+        """
         self.pacientes = lista_pacientes
         self.sessoes = lista_sessoes
         self.consultas = lista_consultas
@@ -13,26 +22,55 @@ class Operacoes:
         self.anotacoes_pacientes = {}
 
     def adicionar_sessao_clinica(self, id, data, horario, duracao, dados_opcionais=""):
+        """
+        Adiciona uma nova sessão clínica à lista de sessões.
+
+        Args:
+        id (str): Identificador da sessão
+        data (str): Data da sessão
+        horario (str): Horário da sessão
+        duracao (str): Duração da sessão
+        dados_opcionais (str, optional): Dados opcionais da sessão. Defaults to "".
+        """
         sessao = Sessao(id, data, horario, duracao, dados_opcionais)
         self.sessoes.append(sessao)
 
     def obter_maior_id_sessao(self):
+        """
+        Obtém o maior ID entre as sessões existentes.
+
+        Returns:
+        int: Maior ID de sessão
+        """
         if not self.sessoes:
             return 0
         else:
             return max(sessao.id for sessao in self.sessoes)
 
     def salvar_sessoes_json(self, filename):
+        """
+        Salva as sessões em um arquivo JSON.
+
+        Args:
+        filename (str): Nome do arquivo JSON
+        """
         with open(filename, 'w') as f:
             sessoes_dict = [sessao.to_dict() for sessao in self.sessoes]
             json.dump(sessoes_dict, f)
 
     def carregar_sessoes_json(self, filename):
+        """
+        Carrega as sessões a partir de um arquivo JSON.
+
+        Args:
+        filename (str): Nome do arquivo JSON
+        """
         with open(filename, 'r') as f:
             sessoes_dict = json.load(f)
             self.sessoes = [Sessao.from_dict(data) for data in sessoes_dict]
 
     def exibir_sessoes(self):
+        """Exibe as sessões clínicas."""
         for s in self.sessoes:
             print("--------------------------")
             print(f"Id: {s.id}")
@@ -44,6 +82,13 @@ class Operacoes:
             print("--------------------------")
 
     def buscar_sessao_clinica(self, data, horario):
+        """
+        Busca uma sessão clínica a partir de uma data e horário.
+
+        Args:
+        data (str): Data da sessão
+        horario (str): Horário da sessão
+        """
         encontrada = False
         for s in self.sessoes:
             if s.data == data and s.horario == horario:
@@ -86,7 +131,7 @@ class Operacoes:
 
     def id_da_sessao_atual(self):
         return self.sessao_atual.id
-    
+
     def salvar_pacientes_json(self, filename):
         with open(filename, 'w') as f:
             pacientes_dict = [paciente.to_dict() for paciente in self.pacientes]
@@ -211,6 +256,12 @@ class Operacoes:
         print(f"O paciente {paciente.nome} foi adicionado à fila de atendimento da sessão de {consulta.sessao.data} às {consulta.sessao.horario}.")
 
     def listar_proximo_paciente_fila_atendimento(self):
+        """
+        Exibe informações sobre o próximo paciente na fila de atendimento.
+
+        Verifica se a fila de atendimento está vazia e, se não estiver,
+        extrai as informações do próximo paciente e sessão na fila e as imprime.
+        """
         if not self.fila_atendimento:
             print("A fila de atendimento está vazia.")
             return
@@ -224,6 +275,13 @@ class Operacoes:
         print(f"Sessão: {sessao.data} às {sessao.horario}")
 
     def atender_proximo_paciente_fila_atendimento(self):
+        """
+        Atende o próximo paciente na fila de atendimento.
+
+        Verifica se a fila de atendimento está vazia e, se não estiver,
+        remove o próximo paciente da fila, registra a consulta como atual
+        e solicita uma anotação sobre a visita ao paciente.
+        """
         if not self.fila_atendimento:
             print("A fila de atendimento está vazia.")
             return
@@ -242,6 +300,12 @@ class Operacoes:
         self.registrar_anotacao_de_visita(paciente.rg, anotacao)
 
     def ler_prontuario_completo_paciente_atual(self):
+        """
+        Exibe o prontuário completo do paciente atualmente sendo atendido.
+
+        Verifica se há um paciente sendo atendido no momento e, se sim,
+        exibe as informações completas do prontuário desse paciente.
+        """
         if not self.consulta_atual:
             print("Nenhum paciente está atualmente sendo atendido.")
             return
@@ -249,8 +313,6 @@ class Operacoes:
         paciente = self.consulta_atual.paciente
 
         print(f"Prontuário completo do paciente {paciente.nome}:")
-
-        # Você pode adicionar mais detalhes ao prontuário, dependendo da sua implementação
         print(f"Número de Identidade (RG): {paciente.rg}")
         print(f"Outros dados: {paciente.outros_dados}")
         print("Prontuários:")
@@ -258,7 +320,12 @@ class Operacoes:
             print(f"{s}: {p}")
 
     def registrar_anotacao_de_visita(self, rg_paciente, anotacao):
-        # Registra uma anotação de visita do paciente
+        """
+        Registra uma anotação de visita do paciente.
+
+        Verifica se o paciente já possui anotações registradas e, se não,
+        cria uma nova entrada para o paciente no dicionário de anotações.
+        """
         if rg_paciente not in self.anotacoes_pacientes:
             self.anotacoes_pacientes[rg_paciente] = [anotacao]
             print("Primeira anotação de visita registrada.")
@@ -267,6 +334,12 @@ class Operacoes:
             print("Anotação de visita registrada.")
 
     def ler_primeira_anotacao_paciente_atual(self):
+        """
+        Exibe a primeira anotação de visita do paciente atualmente sendo atendido.
+
+        Verifica se há um paciente sendo atendido no momento e, se sim,
+        exibe a primeira anotação de visita registrada para esse paciente.
+        """
         if not self.consulta_atual:
             print("Nenhum paciente está atualmente sendo atendido.")
             return
@@ -282,6 +355,12 @@ class Operacoes:
             print(primeira_anotacao)
 
     def ler_ultima_anotacao_paciente_atual(self):
+        """
+        Exibe a última anotação de visita do paciente atualmente sendo atendido.
+
+        Verifica se há um paciente sendo atendido no momento e, se sim,
+        exibe a última anotação de visita registrada para esse paciente.
+        """
         if not self.consulta_atual:
             print("Nenhum paciente está atualmente sendo atendido.")
             return
@@ -297,6 +376,12 @@ class Operacoes:
             print(ultima_anotacao)
 
     def anotar_prontuario_paciente_atual(self, prontuario):
+        """
+        Adiciona uma anotação ao prontuário do paciente atualmente sendo atendido.
+
+        Verifica se há um paciente sendo atendido no momento e, se sim,
+        registra uma anotação no prontuário do paciente com a data e horário da sessão atual.
+        """
         if not self.consulta_atual:
             print("Nenhum paciente está atualmente sendo atendido.")
             return
@@ -315,6 +400,12 @@ class Operacoes:
         print(f"Prontuário registrado para o paciente {paciente.nome}.")
 
     def listar_consultas_sessao_clinica(self, id_sessao):
+        """
+        Lista as consultas realizadas em uma sessão clínica específica.
+
+        Verifica se há consultas associadas à sessão clínica com o ID fornecido.
+        Se houver, exibe as informações sobre cada consulta (paciente, data e horário).
+        """
         consultas_sessao = [consulta for consulta in self.consultas if consulta.sessao.id == id_sessao]
 
         if not consultas_sessao:
